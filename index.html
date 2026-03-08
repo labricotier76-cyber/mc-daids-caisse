@@ -8,572 +8,125 @@
   <meta name="apple-mobile-web-app-title" content="MC Daid's">
   <meta name="theme-color" content="#0a0a0f">
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192.png">
   <title>MC Daid's — Caisse</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c28;
-      --border: #2a2a3d;
-      --accent: #f0c040;
-      --accent2: #e05c3a;
-      --text: #f0ede8;
-      --text2: #888899;
-      --green: #4caf82;
-      --red: #e05c3a;
-      --blue: #4a9eff;
-      --r: 16px;
+      --bg: #0a0a0f; --surface: #13131a; --surface2: #1c1c28;
+      --border: #2a2a3d; --accent: #f0c040; --text: #f0ede8;
+      --text2: #888899; --green: #4caf82; --red: #e05c3a;
+      --blue: #4a9eff; --r: 16px;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* ===== SPLASH / LOGIN ===== */
-    #splash {
-      position: fixed; inset: 0;
-      background: var(--bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      z-index: 100;
-      gap: 8px;
-    }
-    #splash .logo-main {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 64px;
-      letter-spacing: 6px;
-      color: var(--accent);
-      line-height: 1;
-    }
-    #splash .logo-sub {
-      font-size: 11px;
-      letter-spacing: 5px;
-      color: var(--text2);
-      text-transform: uppercase;
-      margin-bottom: 48px;
-    }
-    .login-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px 28px;
-      width: min(340px, 90vw);
-    }
-    .login-card h2 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-    .user-btn {
-      display: flex; align-items: center; gap: 14px;
-      width: 100%; padding: 16px 20px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: all 0.2s;
-    }
+    /* SPLASH */
+    #splash { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100; gap: 8px; }
+    .logo-main { font-family: 'Bebas Neue', sans-serif; font-size: 64px; letter-spacing: 6px; color: var(--accent); line-height: 1; }
+    .logo-sub { font-size: 11px; letter-spacing: 5px; color: var(--text2); text-transform: uppercase; margin-bottom: 48px; }
+    .login-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px 28px; width: min(340px, 90vw); }
+    .login-card h2 { font-size: 14px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 24px; text-align: center; }
+    .user-btn { display: flex; align-items: center; gap: 14px; width: 100%; padding: 16px 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; margin-bottom: 10px; transition: all 0.2s; }
     .user-btn:active { transform: scale(0.97); }
-    .user-btn .avatar {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      font-family: 'Bebas Neue', sans-serif;
-      letter-spacing: 1px;
-    }
+    .avatar { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-family: 'Bebas Neue', sans-serif; }
     .user-btn.alan .avatar { background: var(--accent); color: #000; }
     .user-btn.steve .avatar { background: var(--blue); color: #fff; }
     .user-btn.employee .avatar { background: var(--surface); border: 1px solid var(--border); color: var(--text2); }
-    .user-btn .role-tag {
-      margin-left: auto;
-      font-size: 10px;
-      letter-spacing: 2px;
-      color: var(--text2);
-      text-transform: uppercase;
-    }
-    .pin-prompt {
-      margin-top: 20px;
-      display: none;
-    }
+    .role-tag { margin-left: auto; font-size: 10px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; }
+    .pin-prompt { margin-top: 20px; display: none; }
     .pin-prompt.active { display: block; }
-    .pin-label {
-      font-size: 12px;
-      color: var(--text2);
-      text-align: center;
-      margin-bottom: 12px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .pin-dots {
-      display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;
-    }
-    .pin-dot {
-      width: 14px; height: 14px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      transition: all 0.2s;
-    }
+    .pin-label { font-size: 12px; color: var(--text2); text-align: center; margin-bottom: 12px; letter-spacing: 2px; text-transform: uppercase; }
+    .pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
+    .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--border); transition: all 0.2s; }
     .pin-dot.filled { background: var(--accent); border-color: var(--accent); }
-    .pin-pad {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-    }
-    .pin-key {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 20px;
-      font-family: 'DM Mono', monospace;
-      color: var(--text);
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s;
-    }
+    .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .pin-key { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; font-size: 20px; font-family: 'DM Mono', monospace; color: var(--text); cursor: pointer; text-align: center; transition: all 0.15s; }
     .pin-key:active { background: var(--accent); color: #000; transform: scale(0.93); }
     .pin-key.del { font-size: 16px; color: var(--text2); }
     .pin-error { text-align: center; color: var(--red); font-size: 13px; margin-top: 8px; display: none; }
     .pin-error.show { display: block; }
 
-    /* ===== MAIN APP ===== */
+    /* APP */
     #app { display: none; }
     #app.active { display: block; }
-
-    /* Header */
-    .header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 20px 12px;
-      display: flex; align-items: center; gap: 12px;
-      position: sticky; top: 0; z-index: 10;
-    }
-    .header-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 3px;
-      color: var(--accent);
-    }
-    .header-month {
-      font-size: 12px;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-    .header-user {
-      margin-left: auto;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .user-chip {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 6px 12px;
-      font-size: 12px;
-      color: var(--text2);
-    }
-    .logout-btn {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: none;
-      color: var(--text2);
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px;
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      overflow-x: auto;
-      gap: 6px;
-      padding: 14px 16px;
-      scrollbar-width: none;
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex-shrink: 0;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text2);
-      transition: all 0.2s;
-    }
-    .tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #000;
-      font-weight: 600;
-    }
-
-    /* Content */
-    .content { padding: 0 16px 100px; }
-
-    /* Date selector */
-    .date-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px 16px;
-      margin-bottom: 12px;
-      display: flex; align-items: center; gap: 12px;
-    }
-    .date-bar label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; }
-    .date-bar input[type="date"] {
-      flex: 1;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      padding: 10px 14px;
-      -webkit-appearance: none;
-      color-scheme: dark;
-    }
-
-    /* Section */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-    .section-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-    }
+    .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 20px 12px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+    .header-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--accent); }
+    .header-month { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; }
+    .header-user { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .user-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: var(--text2); }
+    .logout-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: none; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .content { padding: 16px 16px 100px; }
+    .date-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .date-bar label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; flex-shrink: 0; }
+    .date-bar input[type="date"] { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; padding: 10px 14px; -webkit-appearance: none; color-scheme: dark; }
+    .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
+    .section-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
     .section-icon { font-size: 18px; }
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--text2);
-    }
-    .section-badge {
-      margin-left: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--accent);
-    }
+    .section-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--text2); }
+    .section-badge { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 16px; font-weight: 500; color: var(--accent); }
     .section-body { padding: 12px 16px 16px; }
-
-    /* Input fields */
-    .field-row {
-      display: flex; gap: 10px; margin-bottom: 10px;
-    }
-    .field {
-      flex: 1;
-    }
-    .field label {
-      display: block;
-      font-size: 10px;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 6px;
-    }
-    .field input[type="number"] {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 16px;
-      padding: 12px 14px;
-      -webkit-appearance: none;
-      transition: border-color 0.2s;
-      -moz-appearance: textfield;
-    }
-    .field input::-webkit-outer-spin-button,
-    .field input::-webkit-inner-spin-button { -webkit-appearance: none; }
-    .field input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
+    .field-row { display: flex; gap: 10px; margin-bottom: 10px; }
+    .field { flex: 1; }
+    .field label { display: block; font-size: 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+    .field input[type="number"] { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 16px; padding: 12px 14px; -webkit-appearance: none; -moz-appearance: textfield; transition: border-color 0.2s; }
+    .field input::-webkit-outer-spin-button, .field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .field input:focus { outline: none; border-color: var(--accent); }
     .field input.recette { border-color: rgba(76,175,130,0.4); }
     .field input.depense { border-color: rgba(224,92,58,0.3); }
-
-    /* TVA ventilation */
-    .ventil-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    /* Total bar */
-    .total-bar {
-      background: linear-gradient(135deg, var(--surface2), var(--surface));
-      border: 1px solid var(--accent);
-      border-radius: var(--r);
-      padding: 16px 20px;
-      margin-bottom: 12px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .total-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--text2);
-    }
-    .total-amount {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
-      letter-spacing: 2px;
-      color: var(--accent);
-    }
-
-    /* Submit button */
-    .submit-btn {
-      width: 100%;
-      padding: 18px;
-      background: var(--accent);
-      border: none;
-      border-radius: var(--r);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
-      letter-spacing: 4px;
-      color: #000;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-bottom: 12px;
-    }
+    .field input[readonly] { opacity: 0.4; cursor: not-allowed; }
+    .ventil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .total-bar { background: linear-gradient(135deg, var(--surface2), var(--surface)); border: 1px solid var(--accent); border-radius: var(--r); padding: 16px 20px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .total-label { font-size: 11px; text-transform: uppercase; letter-spacing: 3px; color: var(--text2); }
+    .total-amount { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--accent); }
+    .submit-btn { width: 100%; padding: 18px; background: var(--accent); border: none; border-radius: var(--r); font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px; color: #000; cursor: pointer; transition: all 0.2s; margin-bottom: 12px; }
     .submit-btn:active { transform: scale(0.97); opacity: 0.9; }
     .submit-btn:disabled { background: var(--border); color: var(--text2); cursor: not-allowed; }
+    .info-box { background: rgba(74,158,255,0.1); border: 1px solid rgba(74,158,255,0.3); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--blue); line-height: 1.6; margin-bottom: 12px; }
+    .success-box { background: rgba(76,175,130,0.1); border: 1px solid rgba(76,175,130,0.3); border-radius: 12px; padding: 14px 16px; font-size: 13px; color: var(--green); line-height: 1.6; margin-bottom: 12px; display: none; }
+    .success-box.show { display: block; }
 
-    /* History tab */
-    .history-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 16px;
-      margin-bottom: 10px;
-    }
-    .history-date {
-      font-size: 12px;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-    }
-    .history-total {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      color: var(--accent);
-    }
-    .history-row {
-      display: flex; justify-content: space-between;
-      font-size: 13px;
-      color: var(--text2);
-      padding: 4px 0;
-      border-top: 1px solid var(--border);
-      margin-top: 6px;
-    }
+    /* History */
+    .history-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 16px; margin-bottom: 10px; }
+    .history-date { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+    .history-total { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--accent); margin-bottom: 4px; }
+    .history-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); padding: 4px 0; border-top: 1px solid var(--border); margin-top: 4px; }
     .history-row span:last-child { font-family: 'DM Mono', monospace; color: var(--text); }
 
+    /* Config */
+    .config-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-bottom: 12px; overflow: hidden; }
+    .config-row { padding: 16px; border-bottom: 1px solid var(--border); }
+    .config-row:last-child { border-bottom: none; }
+    .config-row label { font-size: 14px; display: block; margin-bottom: 4px; }
+    .config-row .hint { font-size: 12px; color: var(--text2); margin-bottom: 10px; line-height: 1.5; }
+    .config-input { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 13px; padding: 10px 12px; width: 100%; }
+    .config-input:focus { outline: none; border-color: var(--accent); }
+    .save-config-btn { width: 100%; padding: 16px; background: var(--accent); border: none; border-radius: var(--r); color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; cursor: pointer; margin-bottom: 12px; }
+    .pin-row { display: flex; gap: 10px; }
+    .pin-row .field { flex: 1; }
+
     /* Toast */
-    .toast {
-      position: fixed;
-      bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px);
-      background: var(--green);
-      color: #000;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0;
-      transition: all 0.3s;
-      z-index: 50;
-      white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--green); color: #000; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600; opacity: 0; transition: all 0.3s; z-index: 50; white-space: nowrap; }
     .toast.error { background: var(--red); color: #fff; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* Bottom nav */
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      display: flex;
-      padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-      z-index: 20;
-    }
-    .nav-btn {
-      flex: 1; display: flex; flex-direction: column;
-      align-items: center; gap: 4px;
-      padding: 8px;
-      background: none; border: none; cursor: pointer;
-      color: var(--text2);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: color 0.2s;
-    }
-    .nav-btn .nav-icon { font-size: 22px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); display: flex; padding: 8px 0 max(8px, env(safe-area-inset-bottom)); z-index: 20; }
+    .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px; background: none; border: none; cursor: pointer; color: var(--text2); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; transition: color 0.2s; }
+    .nav-icon { font-size: 22px; }
     .nav-btn.active { color: var(--accent); }
 
-    /* Config tab (Alan only) */
-    .config-section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-    .config-row {
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .config-row:last-child { border-bottom: none; }
-    .config-row label { font-size: 14px; }
-    .config-row .hint { font-size: 12px; color: var(--text2); margin-top: 2px; }
-    .config-input {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-family: 'DM Mono', monospace;
-      font-size: 13px;
-      padding: 8px 12px;
-      width: 200px;
-      text-align: right;
-    }
-    .config-input:focus { outline: none; border-color: var(--accent); }
-    .save-config-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--surface2);
-      border: 1px solid var(--accent);
-      border-radius: var(--r);
-      color: var(--accent);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 3px;
-      cursor: pointer;
-      margin-bottom: 12px;
-    }
-
-    /* Loading overlay */
-    .loading-overlay {
-      position: fixed; inset: 0;
-      background: rgba(10,10,15,0.8);
-      display: none;
-      align-items: center; justify-content: center;
-      z-index: 200;
-      flex-direction: column; gap: 16px;
-    }
+    /* Loading */
+    .loading-overlay { position: fixed; inset: 0; background: rgba(10,10,15,0.8); display: none; align-items: center; justify-content: center; z-index: 200; flex-direction: column; gap: 16px; }
     .loading-overlay.show { display: flex; }
-    .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { color: var(--text2); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
-
-    /* Summary card */
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .summary-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px;
-    }
-    .summary-card .s-label {
-      font-size: 10px;
-      color: var(--text2);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 6px;
-    }
-    .summary-card .s-value {
-      font-family: 'DM Mono', monospace;
-      font-size: 18px;
-      color: var(--text);
-    }
-    .summary-card.highlight {
-      border-color: var(--accent);
-      grid-column: span 2;
-    }
-    .summary-card.highlight .s-value {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px;
-      color: var(--accent);
-    }
-
-    /* Readonly fields */
-    .field input[readonly] {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .google-connect-btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%;
-      padding: 14px;
-      background: #fff;
-      border: none;
-      border-radius: var(--r);
-      color: #333;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: all 0.2s;
-    }
-    .google-connect-btn:active { transform: scale(0.97); }
-    .google-logo { font-size: 20px; }
-    .info-box {
-      background: rgba(74,158,255,0.1);
-      border: 1px solid rgba(74,158,255,0.3);
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 13px;
-      color: var(--blue);
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }
   </style>
 </head>
 <body>
 
-<!-- SPLASH / LOGIN -->
+<!-- SPLASH -->
 <div id="splash">
   <div class="logo-main">MC DAID'S</div>
   <div class="logo-sub">Gestion de Caisse</div>
@@ -581,36 +134,24 @@
     <h2>Choisir l'utilisateur</h2>
     <button class="user-btn alan" onclick="selectUser('alan')">
       <div class="avatar">A</div>
-      <div>
-        <div>Alan</div>
-        <div style="font-size:11px;color:var(--text2)">Gérant</div>
-      </div>
+      <div><div>Alan</div><div style="font-size:11px;color:var(--text2)">Gérant</div></div>
       <div class="role-tag">Admin</div>
     </button>
     <button class="user-btn steve" onclick="selectUser('steve')">
       <div class="avatar">S</div>
-      <div>
-        <div>Steve</div>
-        <div style="font-size:11px;color:var(--text2)">Associé</div>
-      </div>
+      <div><div>Steve</div><div style="font-size:11px;color:var(--text2)">Associé</div></div>
       <div class="role-tag">Complet</div>
     </button>
     <button class="user-btn employee" onclick="selectUser('employee')">
       <div class="avatar">👤</div>
-      <div>
-        <div>Employé</div>
-        <div style="font-size:11px;color:var(--text2)">Accès limité</div>
-      </div>
+      <div><div>Employé</div><div style="font-size:11px;color:var(--text2)">Accès limité</div></div>
       <div class="role-tag">Limité</div>
     </button>
-
     <div class="pin-prompt" id="pinPrompt">
       <div class="pin-label" id="pinLabel">Code PIN</div>
       <div class="pin-dots">
-        <div class="pin-dot" id="d0"></div>
-        <div class="pin-dot" id="d1"></div>
-        <div class="pin-dot" id="d2"></div>
-        <div class="pin-dot" id="d3"></div>
+        <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
+        <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
       </div>
       <div class="pin-pad">
         <button class="pin-key" onclick="pinKey('1')">1</button>
@@ -631,7 +172,7 @@
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="app">
   <div class="header">
     <div>
@@ -644,215 +185,146 @@
     </div>
   </div>
 
-  <!-- TAB PAGES -->
-  <div id="tabSaisie" class="tab-page">
-    <div class="tabs">
-      <div class="tab active" onclick="setSubTab('form')">Saisie</div>
-      <div class="tab" onclick="setSubTab('history')">Historique</div>
-      <div class="tab" id="tabConfigBtn" style="display:none" onclick="setSubTab('config')">Config</div>
+  <!-- SAISIE -->
+  <div id="pageSaisie" style="display:none">
+    <div class="content">
+      <div class="date-bar">
+        <label>📅</label>
+        <input type="date" id="dateInput" onchange="updateDateLabel()">
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">💵</span>
+          <span class="section-title">Espèces</span>
+          <span class="section-badge" id="totalEspeces">0,00 €</span>
+        </div>
+        <div class="section-body">
+          <div class="field-row">
+            <div class="field"><label>Recettes</label><input type="number" step="0.01" min="0" id="espRecettes" class="recette" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>Apport</label><input type="number" step="0.01" min="0" id="espApport" class="recette" placeholder="0.00" oninput="calc()"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Dépôt</label><input type="number" step="0.01" min="0" id="espDepot" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>Dépenses</label><input type="number" step="0.01" min="0" id="espDepenses" class="depense" placeholder="0.00" oninput="calc()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">📝</span>
+          <span class="section-title">Caisse Chèques</span>
+          <span class="section-badge" id="totalCheques">0,00 €</span>
+        </div>
+        <div class="section-body">
+          <div class="field-row">
+            <div class="field"><label>Recettes</label><input type="number" step="0.01" min="0" id="chqRecettes" class="recette" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>Dépôts</label><input type="number" step="0.01" min="0" id="chqDepots" placeholder="0.00" oninput="calc()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">💳</span>
+          <span class="section-title">Cartes Bancaires</span>
+          <span class="section-badge" id="totalCB">0,00 €</span>
+        </div>
+        <div class="section-body">
+          <div class="field-row">
+            <div class="field"><label>Recettes</label><input type="number" step="0.01" min="0" id="cbRecettes" class="recette" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>Dépôts</label><input type="number" step="0.01" min="0" id="cbDepots" placeholder="0.00" oninput="calc()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-icon">📊</span>
+          <span class="section-title">Ventilation CA TTC</span>
+        </div>
+        <div class="section-body">
+          <div class="ventil-grid">
+            <div class="field"><label>TVA 10%</label><input type="number" step="0.01" min="0" id="tva10" class="recette" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>TVA 20%</label><input type="number" step="0.01" min="0" id="tva20" class="recette" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>🥢 Tapas</label><input type="number" step="0.01" min="0" id="tapas" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>🚬 Cigarettes</label><input type="number" step="0.01" min="0" id="cigarettes" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>🎁 Offerts</label><input type="number" step="0.01" min="0" id="offerts" placeholder="0.00" oninput="calc()"></div>
+            <div class="field"><label>CA TTC Jour</label><input type="number" step="0.01" min="0" id="caTtcJour" placeholder="0.00" oninput="calc()"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="total-bar">
+        <div class="total-label">Solde Total Jour</div>
+        <div class="total-amount" id="soldeTotal">0,00 €</div>
+      </div>
+
+      <div class="success-box" id="syncOkBox">✅ Synchronisé avec Google Sheets !</div>
+
+      <button class="submit-btn" onclick="submitCaisse()" id="submitBtn">CLÔTURER LA CAISSE</button>
+
+      <div class="info-box" id="infoBox">
+        ℹ️ Configurez l'URL du script Google dans Config pour activer la synchronisation automatique.
+      </div>
     </div>
+  </div>
+
+  <!-- HISTORIQUE -->
+  <div id="pageHistory" style="display:none">
+    <div class="content">
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- CONFIG -->
+  <div id="pageConfig" style="display:none">
     <div class="content">
 
-      <!-- SAISIE FORM -->
-      <div id="subForm">
-        <!-- Date -->
-        <div class="date-bar">
-          <label>📅 Date</label>
-          <input type="date" id="dateInput" onchange="updateDateLabel()">
-        </div>
+      <div class="info-box">
+        ℹ️ Collez ici l'URL de votre Google Apps Script (voir guide). C'est la méthode la plus simple pour connecter l'app à votre Google Sheets.
+      </div>
 
-        <!-- Espèces -->
-        <div class="section">
-          <div class="section-header">
-            <span class="section-icon">💵</span>
-            <span class="section-title">Espèces</span>
-            <span class="section-badge" id="totalEspeces">0,00 €</span>
-          </div>
-          <div class="section-body">
-            <div class="field-row">
-              <div class="field">
-                <label>Recettes</label>
-                <input type="number" step="0.01" min="0" id="espRecettes" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>Apport</label>
-                <input type="number" step="0.01" min="0" id="espApport" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label>Dépôt</label>
-                <input type="number" step="0.01" min="0" id="espDepot" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>Dépenses</label>
-                <input type="number" step="0.01" min="0" id="espDepenses" class="depense" placeholder="0.00" oninput="calc()">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chèques -->
-        <div class="section">
-          <div class="section-header">
-            <span class="section-icon">📝</span>
-            <span class="section-title">Caisse Chèques</span>
-            <span class="section-badge" id="totalCheques">0,00 €</span>
-          </div>
-          <div class="section-body">
-            <div class="field-row">
-              <div class="field">
-                <label>Recettes</label>
-                <input type="number" step="0.01" min="0" id="chqRecettes" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>Dépôts</label>
-                <input type="number" step="0.01" min="0" id="chqDepots" placeholder="0.00" oninput="calc()">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Cartes bancaires -->
-        <div class="section">
-          <div class="section-header">
-            <span class="section-icon">💳</span>
-            <span class="section-title">Cartes Bancaires</span>
-            <span class="section-badge" id="totalCB">0,00 €</span>
-          </div>
-          <div class="section-body">
-            <div class="field-row">
-              <div class="field">
-                <label>Recettes</label>
-                <input type="number" step="0.01" min="0" id="cbRecettes" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>Dépôts</label>
-                <input type="number" step="0.01" min="0" id="cbDepots" placeholder="0.00" oninput="calc()">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ventilation TVA -->
-        <div class="section">
-          <div class="section-header">
-            <span class="section-icon">📊</span>
-            <span class="section-title">Ventilation CA TTC</span>
-          </div>
-          <div class="section-body">
-            <div class="ventil-grid">
-              <div class="field">
-                <label>TVA 10%</label>
-                <input type="number" step="0.01" min="0" id="tva10" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>TVA 20%</label>
-                <input type="number" step="0.01" min="0" id="tva20" class="recette" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>🥢 Tapas</label>
-                <input type="number" step="0.01" min="0" id="tapas" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>🚬 Cigarettes</label>
-                <input type="number" step="0.01" min="0" id="cigarettes" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>🎁 Offerts</label>
-                <input type="number" step="0.01" min="0" id="offerts" placeholder="0.00" oninput="calc()">
-              </div>
-              <div class="field">
-                <label>CA TTC Jour</label>
-                <input type="number" step="0.01" min="0" id="caTtcJour" placeholder="0.00" oninput="calc()">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Total -->
-        <div class="total-bar">
-          <div>
-            <div class="total-label">Solde Total Jour</div>
-          </div>
-          <div class="total-amount" id="soldeTotal">0,00 €</div>
-        </div>
-
-        <!-- Submit -->
-        <button class="submit-btn" onclick="submitCaisse()" id="submitBtn">
-          CLÔTURER LA CAISSE
-        </button>
-
-        <!-- Google Connect info -->
-        <div class="info-box" id="connectInfo">
-          ℹ️ Pour synchroniser avec Google Sheets, connectez votre compte Google dans la Config, puis collez l'ID de votre fichier et autorisez l'accès.
+      <div class="config-section">
+        <div class="config-row">
+          <label>🔗 URL du Script Google</label>
+          <div class="hint">Copiez l'URL de déploiement de votre Apps Script</div>
+          <input type="text" class="config-input" id="cfgScriptUrl" placeholder="https://script.google.com/macros/s/...">
         </div>
       </div>
 
-      <!-- HISTORY -->
-      <div id="subHistory" style="display:none">
-        <div id="historyList">
-          <div style="text-align:center;padding:40px;color:var(--text2);font-size:14px">
-            Aucune saisie enregistrée<br>sur cet appareil.
+      <div class="config-section">
+        <div class="config-row">
+          <label>🔑 Codes PIN</label>
+          <div class="hint">4 chiffres pour chaque utilisateur</div>
+          <div class="pin-row">
+            <div class="field"><label>Alan</label><input type="text" class="config-input" id="cfgPinAlan" placeholder="1234" maxlength="4"></div>
+            <div class="field"><label>Steve</label><input type="text" class="config-input" id="cfgPinSteve" placeholder="5678" maxlength="4"></div>
+            <div class="field"><label>Employé</label><input type="text" class="config-input" id="cfgPinEmployee" placeholder="0000" maxlength="4"></div>
           </div>
         </div>
       </div>
 
-      <!-- CONFIG (Alan only) -->
-      <div id="subConfig" style="display:none">
-        <div class="info-box">
-          ℹ️ Renseignez l'ID de votre Google Sheets (visible dans l'URL) et connectez votre compte Google pour activer la synchronisation automatique.
-        </div>
+      <button class="save-config-btn" onclick="saveConfig()">ENREGISTRER</button>
 
-        <div class="config-section">
-          <div class="config-row">
-            <div>
-              <div>ID Google Sheets</div>
-              <div class="hint">URL : .../spreadsheets/d/<b>ID</b>/edit</div>
-            </div>
-            <input type="text" class="config-input" id="cfgSheetId" placeholder="1BEkfQSi1..." value="">
-          </div>
-          <div class="config-row">
-            <div>
-              <div>PIN Alan</div>
-              <div class="hint">4 chiffres</div>
-            </div>
-            <input type="text" class="config-input" id="cfgPinAlan" placeholder="••••" maxlength="4" value="">
-          </div>
-          <div class="config-row">
-            <div>
-              <div>PIN Steve</div>
-              <div class="hint">4 chiffres</div>
-            </div>
-            <input type="text" class="config-input" id="cfgPinSteve" placeholder="••••" maxlength="4" value="">
-          </div>
-          <div class="config-row">
-            <div>
-              <div>PIN Employé</div>
-              <div class="hint">4 chiffres</div>
-            </div>
-            <input type="text" class="config-input" id="cfgPinEmployee" placeholder="••••" maxlength="4" value="">
+      <div class="config-section">
+        <div class="config-row">
+          <label>📋 Guide Apps Script</label>
+          <div class="hint" style="line-height:1.9">
+            1. Ouvrir <b>script.google.com</b><br>
+            2. Nouveau projet → coller le code du script<br>
+            3. Déployer → Nouvelle application Web<br>
+            4. Accès : <b>Tout le monde</b><br>
+            5. Copier l'URL et la coller ci-dessus
           </div>
         </div>
-
-        <button class="save-config-btn" onclick="saveConfig()">ENREGISTRER LA CONFIG</button>
-
-        <div style="margin-bottom:12px">
-          <button class="google-connect-btn" onclick="connectGoogle()">
-            <span class="google-logo">G</span>
-            Connecter Google Sheets
-          </button>
-        </div>
-
-        <div class="config-section">
-          <div class="config-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-            <div>Instructions d'installation (iPhone)</div>
-            <div class="hint" style="line-height:1.8">
-              1. Ouvrir dans <b>Safari</b><br>
-              2. Appuyer sur <b>Partager</b> (□↑)<br>
-              3. Choisir <b>"Sur l'écran d'accueil"</b><br>
-              4. L'app apparaît comme une vraie app iPhone
-            </div>
+        <div class="config-row">
+          <label>📲 Installer sur iPhone</label>
+          <div class="hint" style="line-height:1.9">
+            1. Ouvrir dans <b>Safari</b><br>
+            2. Bouton <b>Partager</b> (□↑)<br>
+            3. <b>"Sur l'écran d'accueil"</b>
           </div>
         </div>
       </div>
@@ -861,76 +333,52 @@
   </div>
 </div>
 
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
-<!-- Loading -->
-<div class="loading-overlay" id="loading">
-  <div class="spinner"></div>
-  <div class="loading-text">Synchronisation...</div>
-</div>
-
 <!-- Bottom nav -->
 <div class="bottom-nav" id="bottomNav" style="display:none">
-  <button class="nav-btn active" onclick="setMainTab('saisie')" id="navSaisie">
-    <span class="nav-icon">🧾</span>
-    Saisie
+  <button class="nav-btn active" onclick="setPage('saisie')" id="navSaisie">
+    <span class="nav-icon">🧾</span>Saisie
   </button>
-  <button class="nav-btn" onclick="setMainTab('history')" id="navHistory">
-    <span class="nav-icon">📋</span>
-    Historique
+  <button class="nav-btn" onclick="setPage('history')" id="navHistory">
+    <span class="nav-icon">📋</span>Historique
   </button>
-  <button class="nav-btn" id="navConfig" onclick="setMainTab('config')" style="display:none">
-    <span class="nav-icon">⚙️</span>
-    Config
+  <button class="nav-btn" id="navConfig" onclick="setPage('config')" style="display:none">
+    <span class="nav-icon">⚙️</span>Config
   </button>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="loading-overlay" id="loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Envoi en cours...</div>
 </div>
 
 <script>
-  // ===== STATE =====
   let currentUser = null;
   let pendingUser = null;
   let pinEntry = '';
-  let config = JSON.parse(localStorage.getItem('mcdaids_config') || '{}');
-  let history_data = JSON.parse(localStorage.getItem('mcdaids_history') || '[]');
+  let historyData = JSON.parse(localStorage.getItem('mcdaids_v2_history') || '[]');
 
-  const PINS = {
-    alan: config.pinAlan || '1234',
-    steve: config.pinSteve || '5678',
-    employee: config.pinEmployee || '0000'
-  };
-
-  const ROLES = {
-    alan: { label: 'Alan', access: 'admin' },
-    steve: { label: 'Steve', access: 'full' },
-    employee: { label: 'Employé', access: 'limited' }
-  };
-
-  // Months mapping
-  const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  const SHEET_MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  function getCfg() { return JSON.parse(localStorage.getItem('mcdaids_v2_config') || '{}'); }
 
   // ===== INIT =====
-  document.addEventListener('DOMContentLoaded', () => {
+  window.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     document.getElementById('dateInput').value = today.toISOString().split('T')[0];
     updateDateLabel();
-    loadConfig();
+    const cfg = getCfg();
+    if (cfg.scriptUrl) document.getElementById('cfgScriptUrl').value = cfg.scriptUrl;
+    if (cfg.pinAlan) document.getElementById('cfgPinAlan').value = cfg.pinAlan;
+    if (cfg.pinSteve) document.getElementById('cfgPinSteve').value = cfg.pinSteve;
+    if (cfg.pinEmployee) document.getElementById('cfgPinEmployee').value = cfg.pinEmployee;
+    if (cfg.scriptUrl) document.getElementById('infoBox').style.display = 'none';
   });
-
-  function loadConfig() {
-    config = JSON.parse(localStorage.getItem('mcdaids_config') || '{}');
-    if (config.sheetId) document.getElementById('cfgSheetId').value = config.sheetId;
-    if (config.pinAlan) document.getElementById('cfgPinAlan').value = config.pinAlan;
-    if (config.pinSteve) document.getElementById('cfgPinSteve').value = config.pinSteve;
-    if (config.pinEmployee) document.getElementById('cfgPinEmployee').value = config.pinEmployee;
-  }
 
   // ===== LOGIN =====
   function selectUser(user) {
     pendingUser = user;
+    const names = {alan:'Alan', steve:'Steve', employee:'Employé'};
     document.getElementById('pinPrompt').classList.add('active');
-    document.getElementById('pinLabel').textContent = `PIN — ${ROLES[user].label}`;
+    document.getElementById('pinLabel').textContent = 'PIN — ' + names[user];
     pinEntry = '';
     updateDots();
     document.getElementById('pinError').classList.remove('show');
@@ -942,139 +390,87 @@
     if (pinEntry.length >= 4) return;
     pinEntry += k;
     updateDots();
-    if (pinEntry.length === 4) checkPin();
+    if (pinEntry.length === 4) setTimeout(checkPin, 150);
   }
 
   function updateDots() {
-    for (let i = 0; i < 4; i++) {
-      document.getElementById('d'+i).classList.toggle('filled', i < pinEntry.length);
-    }
+    for (let i = 0; i < 4; i++) document.getElementById('d'+i).classList.toggle('filled', i < pinEntry.length);
   }
 
   function checkPin() {
-    // Refresh config
-    const cfg = JSON.parse(localStorage.getItem('mcdaids_config') || '{}');
-    const pins = {
-      alan: cfg.pinAlan || '1234',
-      steve: cfg.pinSteve || '5678',
-      employee: cfg.pinEmployee || '0000'
-    };
-    
-    setTimeout(() => {
-      if (pinEntry === pins[pendingUser]) {
-        loginUser(pendingUser);
-      } else {
-        document.getElementById('pinError').classList.add('show');
-        pinEntry = '';
-        updateDots();
-        // Shake animation
-        const prompt = document.getElementById('pinPrompt');
-        prompt.style.animation = 'shake 0.3s ease';
-        setTimeout(() => prompt.style.animation = '', 300);
+    const cfg = getCfg();
+    const pins = { alan: cfg.pinAlan||'1234', steve: cfg.pinSteve||'5678', employee: cfg.pinEmployee||'0000' };
+    if (pinEntry === pins[pendingUser]) {
+      currentUser = pendingUser;
+      document.getElementById('splash').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('bottomNav').style.display = 'flex';
+      document.getElementById('userChip').textContent = {alan:'Alan',steve:'Steve',employee:'Employé'}[currentUser];
+      if (currentUser === 'alan') {
+        document.getElementById('navConfig').style.display = 'flex';
       }
-    }, 200);
-  }
-
-  function loginUser(user) {
-    currentUser = user;
-    document.getElementById('splash').style.display = 'none';
-    document.getElementById('app').classList.add('active');
-    document.getElementById('bottomNav').style.display = 'flex';
-    document.getElementById('userChip').textContent = ROLES[user].label;
-
-    // Admin/full: show config tab
-    if (user === 'alan') {
-      document.getElementById('tabConfigBtn').style.display = 'block';
-      document.getElementById('navConfig').style.display = 'flex';
+      if (currentUser === 'employee') {
+        ['espApport','espDepot','espDepenses','chqDepots','cbDepots'].forEach(id => {
+          document.getElementById(id).setAttribute('readonly', true);
+        });
+      }
+      setPage('saisie');
+    } else {
+      document.getElementById('pinError').classList.add('show');
+      pinEntry = '';
+      updateDots();
+      const p = document.getElementById('pinPrompt');
+      p.style.animation = 'shake 0.3s ease';
+      setTimeout(() => p.style.animation = '', 300);
     }
-
-    // Employee: restrict some fields
-    if (user === 'employee') {
-      ['espApport','espDepot','espDepenses','chqDepots','cbDepots'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.setAttribute('readonly', true);
-      });
-    }
-
-    setMainTab('saisie');
-    renderHistory();
   }
 
   function logout() {
-    currentUser = null;
-    pendingUser = null;
-    pinEntry = '';
+    currentUser = null; pendingUser = null; pinEntry = '';
     document.getElementById('splash').style.display = 'flex';
-    document.getElementById('app').classList.remove('active');
+    document.getElementById('app').style.display = 'none';
     document.getElementById('bottomNav').style.display = 'none';
     document.getElementById('pinPrompt').classList.remove('active');
-    // Re-enable all fields
     document.querySelectorAll('input[readonly]').forEach(el => el.removeAttribute('readonly'));
+    document.getElementById('navConfig').style.display = 'none';
   }
 
   // ===== NAVIGATION =====
-  let mainTab = 'saisie';
-
-  function setMainTab(tab) {
-    mainTab = tab;
-    ['Saisie','History','Config'].forEach(t => {
-      const nav = document.getElementById('nav'+t);
+  function setPage(page) {
+    ['Saisie','History','Config'].forEach(p => {
+      document.getElementById('page'+p).style.display = 'none';
+      const nav = document.getElementById('nav'+p);
       if (nav) nav.classList.remove('active');
     });
-
-    if (tab === 'saisie') {
-      document.getElementById('navSaisie').classList.add('active');
-      setSubTab('form');
-    } else if (tab === 'history') {
-      document.getElementById('navHistory').classList.add('active');
-      setSubTab('history');
-    } else if (tab === 'config') {
-      if (document.getElementById('navConfig')) document.getElementById('navConfig').classList.add('active');
-      setSubTab('config');
-    }
-  }
-
-  function setSubTab(sub) {
-    document.getElementById('subForm').style.display = sub === 'form' ? 'block' : 'none';
-    document.getElementById('subHistory').style.display = sub === 'history' ? 'block' : 'none';
-    document.getElementById('subConfig').style.display = sub === 'config' ? 'block' : 'none';
-    if (sub === 'history') renderHistory();
+    const map = {saisie:'Saisie', history:'History', config:'Config'};
+    const navMap = {saisie:'navSaisie', history:'navHistory', config:'navConfig'};
+    document.getElementById('page'+map[page]).style.display = 'block';
+    const nav = document.getElementById(navMap[page]);
+    if (nav) nav.classList.add('active');
+    if (page === 'history') renderHistory();
   }
 
   // ===== CALC =====
-  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
-  function fmt(n) { return n.toLocaleString('fr-FR', {minimumFractionDigits:2,maximumFractionDigits:2}) + ' €'; }
+  const v = id => parseFloat(document.getElementById(id).value) || 0;
+  const fmt = n => n.toLocaleString('fr-FR', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' €';
 
   function calc() {
-    const espRec = v('espRecettes');
-    const espApp = v('espApport');
-    const espDep = v('espDepot');
-    const espDpn = v('espDepenses');
-    const totalEsp = espRec + espApp - espDep - espDpn;
-
-    const chqRec = v('chqRecettes');
-    const chqDep = v('chqDepots');
-    const totalChq = chqRec - chqDep;
-
-    const cbRec = v('cbRecettes');
-    const cbDep = v('cbDepots');
-    const totalCB = cbRec - cbDep;
-
-    const total = totalEsp + totalChq + totalCB;
-
-    document.getElementById('totalEspeces').textContent = fmt(totalEsp);
-    document.getElementById('totalCheques').textContent = fmt(totalChq);
-    document.getElementById('totalCB').textContent = fmt(totalCB);
-    document.getElementById('soldeTotal').textContent = fmt(total);
+    const esp = v('espRecettes') + v('espApport') - v('espDepot') - v('espDepenses');
+    const chq = v('chqRecettes') - v('chqDepots');
+    const cb = v('cbRecettes') - v('cbDepots');
+    document.getElementById('totalEspeces').textContent = fmt(esp);
+    document.getElementById('totalCheques').textContent = fmt(chq);
+    document.getElementById('totalCB').textContent = fmt(cb);
+    document.getElementById('soldeTotal').textContent = fmt(esp + chq + cb);
   }
 
   function updateDateLabel() {
     const val = document.getElementById('dateInput').value;
     if (!val) return;
     const d = new Date(val + 'T12:00:00');
-    const jours = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-    document.getElementById('headerMonth').textContent =
-      jours[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    const j = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    const m = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+    document.getElementById('headerMonth').textContent = j[d.getDay()] + ' ' + d.getDate() + ' ' + m[d.getMonth()] + ' ' + d.getFullYear();
   }
 
   // ===== SUBMIT =====
@@ -1083,214 +479,102 @@
     if (!dateVal) { showToast('Choisir une date', true); return; }
 
     const entry = {
-      date: dateVal,
-      user: currentUser,
-      espRecettes: v('espRecettes'),
-      espApport: v('espApport'),
-      espDepot: v('espDepot'),
-      espDepenses: v('espDepenses'),
-      chqRecettes: v('chqRecettes'),
-      chqDepots: v('chqDepots'),
-      cbRecettes: v('cbRecettes'),
-      cbDepots: v('cbDepots'),
-      tva10: v('tva10'),
-      tva20: v('tva20'),
-      tapas: v('tapas'),
-      cigarettes: v('cigarettes'),
-      offerts: v('offerts'),
-      caTtcJour: v('caTtcJour'),
+      date: dateVal, user: currentUser,
+      espRecettes: v('espRecettes'), espApport: v('espApport'),
+      espDepot: v('espDepot'), espDepenses: v('espDepenses'),
+      chqRecettes: v('chqRecettes'), chqDepots: v('chqDepots'),
+      cbRecettes: v('cbRecettes'), cbDepots: v('cbDepots'),
+      tva10: v('tva10'), tva20: v('tva20'),
+      tapas: v('tapas'), cigarettes: v('cigarettes'),
+      offerts: v('offerts'), caTtcJour: v('caTtcJour'),
       timestamp: new Date().toISOString()
     };
 
-    // Save locally
-    history_data.unshift(entry);
-    localStorage.setItem('mcdaids_history', JSON.stringify(history_data));
+    // Save locally always
+    historyData.unshift(entry);
+    localStorage.setItem('mcdaids_v2_history', JSON.stringify(historyData));
 
-    // Try Google Sheets sync
-    const cfg = JSON.parse(localStorage.getItem('mcdaids_config') || '{}');
-    if (cfg.sheetId && cfg.accessToken) {
-      await syncToSheets(entry, cfg);
+    const cfg = getCfg();
+    if (cfg.scriptUrl && cfg.scriptUrl.startsWith('https://script.google.com')) {
+      showLoading(true);
+      try {
+        const url = cfg.scriptUrl + '?callback=cb&data=' + encodeURIComponent(JSON.stringify(entry));
+        await new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          window.cb = (res) => { delete window.cb; s.remove(); resolve(res); };
+          s.onerror = () => { delete window.cb; s.remove(); reject(new Error('Erreur réseau')); };
+          s.src = url;
+          document.head.appendChild(s);
+          setTimeout(() => { delete window.cb; s.remove(); reject(new Error('Timeout')); }, 15000);
+        });
+        document.getElementById('syncOkBox').classList.add('show');
+        setTimeout(() => document.getElementById('syncOkBox').classList.remove('show'), 4000);
+        showToast('✅ Caisse clôturée et synchronisée !');
+      } catch(e) {
+        showToast('Sauvegardé en local (erreur sync)', true);
+      } finally {
+        showLoading(false);
+      }
     } else {
       showToast('✅ Caisse clôturée (local)');
-      resetForm();
     }
-  }
-
-  async function syncToSheets(entry, cfg) {
-    showLoading(true);
-    try {
-      const d = new Date(entry.date + 'T12:00:00');
-      const monthName = SHEET_MONTHS[d.getMonth()];
-      const dayNum = d.getDate();
-
-      // Build row values matching your sheet structure
-      // J | DATE | Dépenses | SOLDE ESP | Recettes(CHQ) | Dépôts(CHQ) | SOLDE CHQ | Recettes(CB) | Dépôts(CB) | SOLDE CB | SOLDE TOTAL | TVA10 | TVA20 | Tapas | Cigarette | Offert | CA TTC JOUR
-      const rowValues = [
-        dayNum,
-        entry.date,
-        entry.espDepenses,
-        '', // SOLDE ESP calculé
-        entry.chqRecettes,
-        entry.chqDepots,
-        '', // SOLDE CHQ calculé
-        entry.cbRecettes,
-        entry.cbDepots,
-        '', // SOLDE CB calculé
-        '', // SOLDE TOTAL calculé
-        entry.tva10,
-        entry.tva20,
-        entry.tapas,
-        entry.cigarettes,
-        entry.offerts,
-        entry.caTtcJour
-      ];
-
-      // Find the right row in the month sheet
-      // We use the Sheets API to append or update
-      const sheetId = cfg.sheetId;
-      const range = `${monthName}!A:Q`;
-
-      const response = await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + cfg.accessToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ values: [rowValues] })
-        }
-      );
-
-      if (response.ok) {
-        showToast('✅ Synchronisé avec Google Sheets !');
-        resetForm();
-      } else {
-        const err = await response.json();
-        if (err.error?.code === 401) {
-          // Token expired
-          showToast('Session expirée, reconnectez Google', true);
-        } else {
-          showToast('Erreur Sheets: ' + (err.error?.message || 'inconnue'), true);
-        }
-      }
-    } catch (e) {
-      showToast('Erreur réseau: ' + e.message, true);
-    } finally {
-      showLoading(false);
-    }
+    resetForm();
   }
 
   function resetForm() {
-    ['espRecettes','espApport','espDepot','espDepenses',
-     'chqRecettes','chqDepots','cbRecettes','cbDepots',
-     'tva10','tva20','tapas','cigarettes','offerts','caTtcJour'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
+    ['espRecettes','espApport','espDepot','espDepenses','chqRecettes','chqDepots',
+     'cbRecettes','cbDepots','tva10','tva20','tapas','cigarettes','offerts','caTtcJour']
+    .forEach(id => { document.getElementById(id).value = ''; });
     calc();
   }
 
   // ===== HISTORY =====
+  const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const JOURS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+
   function renderHistory() {
     const list = document.getElementById('historyList');
-    if (!history_data.length) {
-      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text2);font-size:14px">Aucune saisie enregistrée.</div>';
+    if (!historyData.length) {
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text2)">Aucune saisie enregistrée.</div>';
       return;
     }
-
-    const jours = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-
-    list.innerHTML = history_data.slice(0,30).map(e => {
-      const d = new Date(e.date + 'T12:00:00');
-      const dateLabel = jours[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
-      const total = (e.espRecettes||0)+(e.espApport||0)-(e.espDepot||0)-(e.espDepenses||0)
-                  +(e.chqRecettes||0)-(e.chqDepots||0)
-                  +(e.cbRecettes||0)-(e.cbDepots||0);
-      const fmtN = n => (n||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
-
+    const fmtN = n => (n||0).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    list.innerHTML = historyData.slice(0,30).map(e => {
+      const d = new Date(e.date+'T12:00:00');
+      const total = (e.espRecettes||0)+(e.espApport||0)-(e.espDepot||0)-(e.espDepenses||0)+(e.chqRecettes||0)-(e.chqDepots||0)+(e.cbRecettes||0)-(e.cbDepots||0);
       return `<div class="history-card">
-        <div class="history-date">${dateLabel} · ${e.user}</div>
+        <div class="history-date">${JOURS[d.getDay()]} ${d.getDate()} ${MOIS[d.getMonth()]} · ${e.user}</div>
         <div class="history-total">${fmtN(total)} €</div>
         <div class="history-row"><span>Espèces recettes</span><span>${fmtN(e.espRecettes)}</span></div>
-        <div class="history-row"><span>Espèces dépenses</span><span>${fmtN(e.espDepenses)}</span></div>
+        <div class="history-row"><span>CB recettes</span><span>${fmtN(e.cbRecettes)}</span></div>
         <div class="history-row"><span>Chèques</span><span>${fmtN(e.chqRecettes)}</span></div>
-        <div class="history-row"><span>CB</span><span>${fmtN(e.cbRecettes)}</span></div>
-        <div class="history-row"><span>TVA 10%</span><span>${fmtN(e.tva10)}</span></div>
-        <div class="history-row"><span>TVA 20%</span><span>${fmtN(e.tva20)}</span></div>
-        <div class="history-row"><span>Tapas</span><span>${fmtN(e.tapas)}</span></div>
-        <div class="history-row"><span>Cigarettes</span><span>${fmtN(e.cigarettes)}</span></div>
-        <div class="history-row"><span>Offerts</span><span>${fmtN(e.offerts)}</span></div>
+        <div class="history-row"><span>TVA 10% / 20%</span><span>${fmtN(e.tva10)} / ${fmtN(e.tva20)}</span></div>
+        <div class="history-row"><span>Tapas / Cig / Offerts</span><span>${fmtN(e.tapas)} / ${fmtN(e.cigarettes)} / ${fmtN(e.offerts)}</span></div>
       </div>`;
     }).join('');
   }
 
   // ===== CONFIG =====
   function saveConfig() {
-    config = {
-      sheetId: document.getElementById('cfgSheetId').value.trim(),
+    const cfg = {
+      scriptUrl: document.getElementById('cfgScriptUrl').value.trim(),
       pinAlan: document.getElementById('cfgPinAlan').value.trim() || '1234',
       pinSteve: document.getElementById('cfgPinSteve').value.trim() || '5678',
-      pinEmployee: document.getElementById('cfgPinEmployee').value.trim() || '0000',
-      accessToken: config.accessToken || null,
-      refreshToken: config.refreshToken || null
+      pinEmployee: document.getElementById('cfgPinEmployee').value.trim() || '0000'
     };
-    localStorage.setItem('mcdaids_config', JSON.stringify(config));
+    localStorage.setItem('mcdaids_v2_config', JSON.stringify(cfg));
+    document.getElementById('infoBox').style.display = cfg.scriptUrl ? 'none' : 'block';
     showToast('✅ Configuration enregistrée');
   }
 
-  // ===== GOOGLE AUTH =====
-  function connectGoogle() {
-    // Google OAuth2 implicit flow
-    // You need to create a Google Cloud project, enable Sheets API, and get a client ID
-    const CLIENT_ID = config.googleClientId || prompt('Entrez votre Google Client ID (Google Cloud Console) :');
-    if (!CLIENT_ID) return;
-
-    if (!config.googleClientId) {
-      config.googleClientId = CLIENT_ID;
-      localStorage.setItem('mcdaids_config', JSON.stringify(config));
-    }
-
-    const SCOPE = 'https://www.googleapis.com/auth/spreadsheets';
-    const REDIRECT = encodeURIComponent(window.location.href.split('?')[0]);
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT}&response_type=token&scope=${encodeURIComponent(SCOPE)}&prompt=consent`;
-    
-    window.location.href = authUrl;
-  }
-
-  // Handle OAuth redirect
-  function handleOAuthRedirect() {
-    const hash = window.location.hash;
-    if (hash.includes('access_token')) {
-      const params = new URLSearchParams(hash.substring(1));
-      const token = params.get('access_token');
-      if (token) {
-        config.accessToken = token;
-        localStorage.setItem('mcdaids_config', JSON.stringify(config));
-        window.location.hash = '';
-        showToast('✅ Google Sheets connecté !');
-      }
-    }
-  }
-
-  // ===== UI HELPERS =====
-  function showToast(msg, isError = false) {
+  // ===== HELPERS =====
+  function showToast(msg, isError=false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
-    t.className = 'toast' + (isError ? ' error' : '') + ' show';
-    setTimeout(() => t.className = 'toast' + (isError ? ' error' : ''), 3000);
+    t.className = 'toast' + (isError?' error':'') + ' show';
+    setTimeout(() => t.className = 'toast'+(isError?' error':''), 3000);
   }
-
-  function showLoading(show) {
-    document.getElementById('loading').classList.toggle('show', show);
-  }
-
-  // Run on load
-  handleOAuthRedirect();
-
-  // Add shake animation
-  const style = document.createElement('style');
-  style.textContent = '@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-8px)} 75%{transform:translateX(8px)} }';
-  document.head.appendChild(style);
+  function showLoading(show) { document.getElementById('loading').classList.toggle('show', show); }
 </script>
 </body>
 </html>
